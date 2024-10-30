@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rice Classification Prediction</title>
+<style>
+    .form-container {
+        display: flex;
+        flex-direction: column;
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        background-color: #f9f9f9;
+    }
+    .title{
+        display: flex;
+    }
+
+    .form-group {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        width: 45%;
+    }
+
+    .form-group input, .form-group select {
+        width: 50%;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .form-group input[type="submit"] {
+        width: 100%;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+    }
+
+    .form-group input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+
+    .prediction-result {
+        text-align: center;
+        font-weight: bold;
+        margin-top: 20px;
+        font-size: 1.2em;
+        color: #333;
+    }
+</style>
+
+<form class="form-container" method="POST">
+    <h2 class="titile">Rice Classification Prediction</h2>
+
+    <div class="form-group">
+        <label for="area">Area:</label>
+        <input type="number" id="area" name="area" min="0" step="any" required value="{{ request.form['area'] if request.method == 'POST' else '' }}">
+    </div>
+
+    <div class="form-group">
+        <label for="perimeter">Perimeter:</label>
+        <input type="number" id="perimeter" name="perimeter" min="0" step="any" required value="{{ request.form['perimeter'] if request.method == 'POST' else '' }}">
+    </div>
+
+    <div class="form-group">
+        <label for="major_axis_length">Major Axis Length:</label>
+        <input type="number" id="major_axis_length" name="major_axis_length" min="0" step="any" required value="{{ request.form['major_axis_length'] if request.method == 'POST' else '' }}">
+    </div>
+
+    <div class="form-group">
+        <label for="minor_axis_length">Minor Axis Length:</label>
+        <input type="number" id="minor_axis_length" name="minor_axis_length" min="0" step="any" required value="{{ request.form['minor_axis_length'] if request.method == 'POST' else '' }}">
+    </div>
+
+    <div class="form-group">
+        <label for="eccentricity">Eccentricity:</label>
+        <input type="number" id="eccentricity" name="eccentricity" min="0" step="any" required value="{{ request.form['eccentricity'] if request.method == 'POST' else '' }}">
+    </div>
+
+    <div class="form-group">
+        <label for="convex_area">Convex Area:</label>
+        <input type="number" id="convex_area" name="convex_area" min="0" step="any" required value="{{ request.form['convex_area'] if request.method == 'POST' else '' }}">
+    </div>
+
+    <div class="form-group">
+        <label for="extent">Extent:</label>
+        <input type="number" id="extent" name="extent" min="0" step="any" required value="{{ request.form['extent'] if request.method == 'POST' else '' }}">
+    </div>
+
+    <div class="form-group">
+<label for="algorithm">Select Algorithm:</label>
+<select id="algorithm" name="algorithm">
+    <option value="KNN" {% if request.form['algorithm'] == 'KNN' %}selected{% endif %}>K-Nearest Neighbors</option>
+    <option value="Naive Bayes" {% if request.form['algorithm'] == 'Naive Bayes' %}selected{% endif %}>Naive Bayes</option>
+    <option value="Decision Tree" {% if request.form['algorithm'] == 'Decision Tree' %}selected{% endif %}>Decision Tree</option>
+</select>
+
+
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Predict">
+    </div>
+</form>
+
+{% if prediction %}
+    <div class="prediction-result">
+        Prediction: {{ prediction }}
+    </div>
+{% endif %}
